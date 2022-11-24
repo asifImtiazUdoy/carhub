@@ -1,9 +1,11 @@
-const { createBrowserRouter } = require("react-router-dom");
+import { createBrowserRouter } from "react-router-dom";
+import Client from "../../layouts/Client/Client";
+
 
 export const routes = createBrowserRouter([
     {
         path: '/',
-        element: "This is main component",
+        element: <Client></Client>,
         children: [
             {
                 path: '/',
