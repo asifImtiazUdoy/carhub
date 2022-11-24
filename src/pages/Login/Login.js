@@ -4,16 +4,16 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 
 const Login = () => {
-    const {user, googleLogin} = useContext(AuthContext);
+    const { googleLogin} = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
 
-    const from = location.state?.from?.pathname || '/'
+    const from = location.state?.from?.pathname || '/';
 
     const handleGoogleLogin = () => {
         googleLogin()
         .then( result => {
-            navigate(from, {replace: true})
+            navigate(from, {replace: true});
         })
         .catch(e => console.error(e))
     }
