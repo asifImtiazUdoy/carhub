@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaMoon, FaSun } from "react-icons/fa";
 
 const Header = () => {
 
@@ -37,7 +38,9 @@ const Header = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <input onChange={handleTheme} type="checkbox" className="toggle toggle-md" />
+                <FaSun />
+                <input onChange={handleTheme} type="checkbox" className="toggle toggle-sm mx-1" />
+                <FaMoon />
                 <div className="dropdown dropdown-end">
                     <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                         <div className="w-10 rounded-full">
