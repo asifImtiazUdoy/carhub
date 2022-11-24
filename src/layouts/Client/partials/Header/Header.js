@@ -23,7 +23,7 @@ const Header = () => {
 
     const menu = <>
         <li className='uppercase font-semibold'><Link to='/'>Home</Link></li>
-        <li className='uppercase font-semibold'><Link to='/'>Blog</Link></li>
+        <li className='uppercase font-semibold'><Link to='/blog'>Blog</Link></li>
         <li className='uppercase font-semibold'><Link to='/'>About</Link></li>
     </>
 
