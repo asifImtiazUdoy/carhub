@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { FaMoon, FaSun, FaUser, FaUserAlt } from "react-icons/fa";
+import { FaMoon, FaSun, FaUserAlt } from "react-icons/fa";
 import { AuthContext } from '../../../../contexts/AuthProvider/AuthProvider';
 
 const Header = () => {
