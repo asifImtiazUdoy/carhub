@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { FaMoon, FaSun } from "react-icons/fa";
+import { FaMoon, FaSun, FaUser, FaUserAlt } from "react-icons/fa";
+import { AuthContext } from '../../../../contexts/AuthProvider/AuthProvider';
 
 const Header = () => {
+    const { user, logOut } = useContext(AuthContext);
+
+    const handleTheme = (e) => {
+        const theme = document.getElementById('html');
+        if (e.target.checked) {
+            theme.setAttribute('data-theme', 'dark')
+        } else {
+            theme.setAttribute('data-theme', 'light')
+        }
+    }
+
+    const handleLogout = () => {
+        logOut()
+        .then()
+        .catch(e => console.error(e))
+    }
 
     const menu = <>
         <li className='uppercase font-semibold'><Link to='/'>Home</Link></li>
@@ -10,17 +27,8 @@ const Header = () => {
         <li className='uppercase font-semibold'><Link to='/'>About</Link></li>
     </>
 
-    const handleTheme = (e) => {
-        const theme = document.getElementById('html');
-        if (e.target.checked) {
-            theme.setAttribute('data-theme', 'dark')
-        }else{
-            theme.setAttribute('data-theme', 'light')
-        }
-    }
-    
     return (
-        <div className="navbar shadow-lg fixed-top lg:px-24">
+        <div className="navbar shadow-lg sticky top-0 lg:px-24 z-10 bg-base-100">
             <div className="navbar-start mx-auto">
                 <div className="dropdown">
                     <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -41,19 +49,30 @@ const Header = () => {
                 <FaSun />
                 <input onChange={handleTheme} type="checkbox" className="toggle toggle-sm mx-1" />
                 <FaMoon />
-                <div className="dropdown dropdown-end">
-                    <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                        <div className="w-10 rounded-full">
-                            <img src="https://placeimg.com/80/80/people" alt='' />
-                        </div>
-                    </label>
-                    <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                        <li>
-                            <Link className="justify-between">Profile</Link>
-                        </li>
-                        <li><button>Logout</button></li>
-                    </ul>
-                </div>
+                {user?.uid ?
+                    <div className="dropdown dropdown-end mx-2">
+                        <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                            <div className="w-10 rounded-full">
+                                {
+                                    user?.photoURL ?
+                                        <img src={user?.photoURL} alt='img' />
+                                        :
+                                        <div className="flex justify-center items-center h-full w-full bg-zinc-200">
+                                            <FaUserAlt className='text-2xl'></FaUserAlt>
+                                        </div>
+                                }
+                            </div>
+                        </label>
+                        <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+                            <li>
+                                <Link className="justify-between">Profile</Link>
+                            </li>
+                            <li><button onClick={handleLogout}>Logout</button></li>
+                        </ul>
+                    </div>
+                    :
+                    <Link to='/login' className="btn btn-sm mx-2">Login</Link>
+                }
             </div>
         </div>
     );
