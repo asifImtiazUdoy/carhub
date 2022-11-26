@@ -7,7 +7,7 @@ const Sidebar = () => {
     const { user } = useContext(AuthContext);
 
     return (
-        <div className="drawer-side z-0 mt-16 shadow-xl">
+        <div className="drawer-side z-0 mt-16 shadow-lg">
             <label htmlFor="sidebar" className="drawer-overlay"></label>
             <aside className='bg-base-200 w-80 lg:w-full'>
                 <div className="lg:ml-24 ml-6 mt-4 mb-8">
@@ -29,7 +29,7 @@ const Sidebar = () => {
                 <div className="divider"></div>
                 <ul className="menu p-4 text-base-content bg-base-100 lg:ml-24 rounded">
                     <li className='border-b-2'>
-                        <Link className='flex justify-start items-center font-semibold'><FaFire />Dashboard</Link>
+                        <Link to='/dashboard' className='flex justify-start items-center font-semibold'><FaFire />Dashboard</Link>
                     </li>
                     <li className='border-b-2'>
                         <Link className='flex justify-start items-center font-semibold'><FaHeart />My Wishlist</Link>
