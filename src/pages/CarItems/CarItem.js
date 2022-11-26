@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaCalendar, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
 
 const CarItem = () => {
     return (
