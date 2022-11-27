@@ -1,12 +1,13 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { baseUrl } from '../../Helper/Helper';
 
 const CategoryModal = ({setClose, refetch}) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const handleCreate = (data) => {
-        fetch('http://localhost:5000/category', {
+        fetch(`${baseUrl}/category`, {
             method: "POST",
             headers: {
                 'content-type': 'application/json'

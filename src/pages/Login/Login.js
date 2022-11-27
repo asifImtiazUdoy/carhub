@@ -6,7 +6,7 @@ import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 
 const Login = () => {
     const { login, googleLogin } = useContext(AuthContext);
-    const {register, handleSubmit, formState: {errors} } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -14,12 +14,12 @@ const Login = () => {
 
     const handleLogin = (data) => {
         login(data.email, data.password)
-        .then(result => {
-            const user = result.user;
-            console.log(user);
-            navigate(from, { replace:true })
-        })
-        .catch(e => console.error(e))
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                navigate(from, { replace: true })
+            })
+            .catch(e => console.error(e))
     }
 
     const handleGoogleLogin = () => {
@@ -41,25 +41,25 @@ const Login = () => {
                                 <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
-                                <input type="text" {...register('email', {required: "Email is required"})} placeholder="email" className="input input-bordered" />
+                                <input type="text" {...register('email', { required: "Email is required" })} placeholder="email" className="input input-bordered" />
                                 {errors.email && <span className='text-red-600'>This field is required</span>}
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input type="password" {...register('password', {required: true})} placeholder="password" className="input input-bordered" />
+                                <input type="password" {...register('password', { required: true })} placeholder="password" className="input input-bordered" />
                                 {errors.password && <span className='text-red-600'>This field is required</span>}
                                 <label className="label">
                                     <Link to="#" className="label-text-alt link link-hover">Forgot password?</Link>
-                                </label>
-                                <label className="label">
-                                    <p className='flex justify-between'>Don't have an account?<Link to="/register" className="text-primary text-end link-hover underline">Create New</Link></p>
                                 </label>
                             </div>
                             <div className="form-control mt-3">
                                 <button type='submit' className="btn btn-secondary">Login</button>
                             </div>
+                            <label className="label">
+                                <p className='flex justify-between'>Don't have an account?<Link to="/register" className="text-primary text-end link-hover underline">Create New</Link></p>
+                            </label>
                             <div className="divider">OR</div>
                             <div className="form-control">
                                 <button type='button' onClick={handleGoogleLogin} className="btn btn-outline"><FaGoogle className='text-secondary'></FaGoogle> &nbsp; Continue with Google</button>

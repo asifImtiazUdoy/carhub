@@ -3,6 +3,8 @@ import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { FaGoogle } from 'react-icons/fa';
+import { baseUrl } from '../../Helper/Helper';
+import toast from 'react-hot-toast';
 
 const Register = () => {
     const { createUser, googleLogin } = useContext(AuthContext);
@@ -13,12 +15,30 @@ const Register = () => {
     const from = location.state?.from?.pathname || '/';
 
     const handleLogin = (data) => {
+        const user = {
+            name: data.name,
+            email: data.email,
+            type: data.type ? data.type: 'Buyer'
+        }
+        console.log(user);
         createUser(data.email, data.password)
-        .then(result => {
-            console.log(result.user);
-            navigate(from, {replace: true});
-        })
-        .catch(e => console.error(e))
+            .then(result => {
+                if (result.user?.uid) {
+                    fetch(`${baseUrl}/user`, {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json'
+                        },
+                        body: JSON.stringify(user)
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        navigate(from, { replace: true });
+                        toast.success('User Created Successfully!')
+                    })
+                }
+            })
+            .catch(e => console.error(e))
     }
 
     const handleGoogleLogin = () => {
@@ -29,7 +49,7 @@ const Register = () => {
             .catch(e => console.error(e))
     }
     return (
-        <div className="hero min-h-screen w-full">
+        <div className="hero min-h-screen w-full mt-16">
             <div className="hero-content w-1/3">
                 <div className="card w-full shadow-xl bg-base-100">
                     <h2 className='text-center text-3xl font-bold p-4'>Sign Up</h2>
@@ -58,13 +78,19 @@ const Register = () => {
                                 <label className="label">
                                     <Link to="#" className="label-text-alt link link-hover">Forgot password?</Link>
                                 </label>
-                                <label className="label">
-                                    <p className='flex justify-between'>Already have an account?<Link to="/login" className="text-primary text-end link-hover underline">Sign In</Link></p>
-                                </label>
+                                <div className="form-control">
+                                    <label className="cursor-pointer label justify-start items-center shadow-sm">
+                                        <input type="checkbox" {...register('type')} className="checkbox checkbox-primary mr-2" value="Seller"/>
+                                        <span className="label-text font-bold text-primary">SignUp as a Seller</span>
+                                    </label>
+                                </div>
                             </div>
                             <div className="form-control mt-3">
                                 <button type='submit' className="btn btn-secondary">Sign Up</button>
                             </div>
+                            <label className="label">
+                                <p className='flex justify-between'>Already have an account?<Link to="/login" className="text-primary text-end link-hover underline">Sign In</Link></p>
+                            </label>
                             <div className="divider">OR</div>
                             <div className="form-control">
                                 <button type='button' onClick={handleGoogleLogin} className="btn btn-outline"><FaGoogle className='text-secondary'></FaGoogle> &nbsp; Continue with Google</button>
