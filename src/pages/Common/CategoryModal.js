@@ -4,10 +4,23 @@ import toast from 'react-hot-toast';
 
 const CategoryModal = ({setClose}) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+
     const handleCreate = (data) => {
-        console.log(data);
-        setClose(null);
-        toast.success('This is a sample toast!');
+        fetch('http://localhost:5000/category', {
+            method: "POST",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.acknowledged) {
+                console.log(data);
+                setClose(null);
+                toast.success('Category Added Successfully!');
+            }
+        })
     }
     return (
         <div>

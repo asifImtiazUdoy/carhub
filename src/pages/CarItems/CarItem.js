@@ -3,7 +3,7 @@ import { FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
 
 const CarItem = () => {
     return (
-        <div className="card bg-pink-100 shadow-xl">
+        <div className="card bg-base-200 shadow-xl">
             <figure className="px-4 -mt-12 relative">
                 <img src="https://placeimg.com/400/225/arch" alt="Shoes" className="rounded-xl" />
                     <span className='font-bold absolute right-6 bottom-2 bg-primary text-white px-4 py-1 rounded'>$20000</span>
