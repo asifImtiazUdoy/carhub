@@ -1,20 +1,25 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { FaPencilAlt, FaPlus, FaTrashAlt } from 'react-icons/fa';
 import { baseUrl } from '../../Helper/Helper';
 import BreadCrumb from '../../layouts/Profile/partials/BreadCrumb/BreadCrumb';
 import CategoryModal from '../Common/CategoryModal';
+import load from '../../loading.gif';
 
 const Categories = () => {
     const [close, setClose] = useState([]);
-    const {data: categories = [], isLoading} = useQuery({
-        queryKey: [categories],
+    const { data: categories = [], isLoading, refetch } = useQuery({
+        queryKey: ['categories'],
         queryFn: async () => {
             const res = await fetch(`${baseUrl}/categories`);
             const data = res.json();
             return data;
         }
-    })
+    });
+
+    if (isLoading) {
+        return <div className='flex justify-center items-center h-screen'><img src={load} alt="loader" /></div>
+    }
 
     return (
         <>
@@ -29,26 +34,34 @@ const Categories = () => {
                     <div className="overflow-x-auto">
                         <table className="table table-zebra w-full">
                             <thead>
-                                <tr>
+                                <tr className='text-center'>
                                     <th>Sl No.</th>
                                     <th>Name</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th>1</th>
-                                    <td>Cy Ganderton</td>
-                                    <td>Quality Control Specialist</td>
-                                    <td>Blue</td>
-                                </tr>
+                                {
+                                    categories.map((category, index) => {
+                                        return (
+                                            <tr key={category._id} className="text-center">
+                                                <th>{index + 1}</th>
+                                                <td>{category.name}</td>
+                                                <td>
+                                                    <label onClick={() => setClose([])} htmlFor="category-modal" className='btn btn-sm btn-outline btn-success mr-2'><FaPencilAlt /></label>
+                                                    <button className='btn btn-sm btn-outline btn-secondary'><FaTrashAlt/></button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                                }
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
             {
-                close && <CategoryModal setClose={setClose}></CategoryModal>
+                close && <CategoryModal setClose={setClose} refetch={refetch}></CategoryModal>
             }
         </>
     );

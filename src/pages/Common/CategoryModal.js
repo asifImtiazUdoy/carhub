@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-const CategoryModal = ({setClose}) => {
+const CategoryModal = ({setClose, refetch}) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const handleCreate = (data) => {
@@ -16,7 +16,7 @@ const CategoryModal = ({setClose}) => {
         .then(res => res.json())
         .then(data => {
             if (data.acknowledged) {
-                console.log(data);
+                refetch();
                 setClose(null);
                 toast.success('Category Added Successfully!');
             }
