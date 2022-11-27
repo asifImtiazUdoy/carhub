@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Client from "../../layouts/Client/Client";
 import Profile from "../../layouts/Profile/Profile";
 import Blog from "../../pages/Blog/Blog";
+import Categories from "../../pages/Categories/Categories";
 import Dashboard from "../../pages/Dashboard/Dashboard";
 import Error from "../../pages/Error/Error";
 import Home from "../../pages/Home/Home";
@@ -34,12 +35,16 @@ export const routes = createBrowserRouter([
         ]
     },
     {
-        path: '/dashboard',
+        path: '/user',
         element: <PrivateRoutes><Profile></Profile></PrivateRoutes>,
         children: [
             {
-                path: '/dashboard',
+                path: '/user',
                 element: <Dashboard></Dashboard>
+            },
+            {
+                path: '/user/categories',
+                element: <Categories></Categories>
             }
         ]
     },

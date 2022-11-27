@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { FaFire, FaHeart, FaShoppingBasket, FaShoppingCart, FaUserAlt } from 'react-icons/fa';
+import { FaFileAlt, FaFire, FaHeart, FaShoppingBasket, FaShoppingCart, FaUserAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../../contexts/AuthProvider/AuthProvider';
 
@@ -29,7 +29,7 @@ const Sidebar = () => {
                 <div className="divider"></div>
                 <ul className="menu p-4 text-base-content bg-base-100 lg:ml-24 rounded">
                     <li className='border-b-2'>
-                        <Link to='/dashboard' className='flex justify-start items-center font-semibold'><FaFire />Dashboard</Link>
+                        <Link to='/user' className='flex justify-start items-center font-semibold'><FaFire />Dashboard</Link>
                     </li>
                     <li className='border-b-2'>
                         <Link className='flex justify-start items-center font-semibold'><FaHeart />My Wishlist</Link>
@@ -39,6 +39,9 @@ const Sidebar = () => {
                     </li>
                     <li className='border-b-2'>
                         <Link className='flex justify-start items-center font-semibold'><FaShoppingBasket />My Purchases</Link>
+                    </li>
+                    <li className='border-b-2'>
+                        <Link to='/user/categories' className='flex justify-start items-center font-semibold'><FaFileAlt />All Categories</Link>
                     </li>
                 </ul>
             </aside>
