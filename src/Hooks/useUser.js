@@ -7,7 +7,11 @@ const useUser = (email) => {
 
     useEffect(() => {
         if (email) {
-            fetch(`${baseUrl}/user/${email}`)
+            fetch(`${baseUrl}/user/${email}`, {
+                headers: {
+                    authorization: `bearer ${localStorage.getItem('access-token')}`
+                }
+            })
                 .then(res => res.json())
                 .then(data => {
                     setCurrentUser(data);

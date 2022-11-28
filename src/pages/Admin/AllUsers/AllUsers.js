@@ -9,7 +9,11 @@ const AllUsers = () => {
     const { data: allUsers = [], isLoading } = useQuery({
         queryKey: ['allUsers'],
         queryFn: async () => {
-            const res = await fetch(`${baseUrl}/users`);
+            const res = await fetch(`${baseUrl}/users`,{
+                headers: {
+                    authorization: `bearer ${localStorage.getItem('access-token')}`
+                }
+            });
             const data = res.json();
             return data;
         }

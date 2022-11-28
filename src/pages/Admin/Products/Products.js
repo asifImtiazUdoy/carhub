@@ -26,6 +26,9 @@ const Products = () => {
     const handleUpdate = (id) => {
         fetch(`${baseUrl}/products/${id}`, {
             method: "PUT",
+            headers: {
+                authorization: `bearer ${localStorage.getItem('access-token')}`
+            }
         })
         .then(res => res.json())
         .then(result => {

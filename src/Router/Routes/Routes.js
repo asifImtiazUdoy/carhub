@@ -16,6 +16,7 @@ import CategoryProducts from "../../pages/CategoryProducts/CategoryProducts";
 import AllCars from "../../pages/AllCars/AllCars";
 import MyBookings from "../../pages/Admin/MyBookings/MyBookings";
 import Orders from "../../pages/Admin/Orders/Orders";
+import AdminRoutes from "../AdminRoutes/AdminRoutes";
 
 
 export const routes = createBrowserRouter([
@@ -62,11 +63,11 @@ export const routes = createBrowserRouter([
             },
             {
                 path: '/user/categories',
-                element: <Categories></Categories>
+                element: <AdminRoutes><Categories></Categories></AdminRoutes>
             },
             {
                 path: '/user/allusers',
-                element: <AllUsers></AllUsers>
+                element: <AdminRoutes><AllUsers></AllUsers></AdminRoutes>
             },
             {
                 path: '/user/products',
