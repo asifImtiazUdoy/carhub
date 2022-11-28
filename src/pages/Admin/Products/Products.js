@@ -1,15 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useContext, useState } from 'react';
-import { FaPencilAlt, FaPlus, FaTrashAlt } from 'react-icons/fa';
+import toast from 'react-hot-toast';
+import { FaBolt, FaCheck, FaPlus, FaTrashAlt } from 'react-icons/fa';
 import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
 import { baseUrl } from '../../../Helper/Helper';
 import BreadCrumb from '../../../layouts/Profile/partials/BreadCrumb/BreadCrumb';
 import load from '../../../loading.gif';
+import ConfirmationModal from '../../Common/ConfirmationModal';
 import ProductModal from '../../Common/ProductModal';
 
 const Products = () => {
     const {user} = useContext(AuthContext);
-    const [close, setClose] = useState([]);
+    const [close, setClose] = useState(null);
+    const [car, setCar] = useState('');
+
     const { data: products = [], isLoading, refetch } = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
@@ -18,6 +22,35 @@ const Products = () => {
             return data;
         }
     });
+
+    const handleUpdate = (id) => {
+        fetch(`${baseUrl}/products/${id}`, {
+            method: "PUT",
+        })
+        .then(res => res.json())
+        .then(result => {
+            if (result.acknowledge) {
+                setClose(null);
+                refetch();
+                toast.success("Added to Advertisement Successfully!")
+            }
+        })
+    }
+
+    const handleDelete = (id) => {
+        fetch(`${baseUrl}/product/${id}`, {
+            method: "DELETE",
+        })
+        .then(res => res.json())
+        .then(result => {
+            if (result.deletedCount > 0) {
+                setClose(null);
+                refetch();
+                toast.success("Item Deleted Successfully!")
+            }
+        })
+
+    }
 
     if (isLoading) {
         return <div className='flex justify-center items-center h-screen'><img src={load} alt="loader" /></div>
@@ -58,8 +91,12 @@ const Products = () => {
                                                 <td>{product.price}</td>
                                                 <td>{product.use}</td>
                                                 <td>
-                                                    <label onClick={() => setClose([])} htmlFor="category-modal" className='btn btn-sm btn-outline btn-success mr-2'><FaPencilAlt /></label>
-                                                    <button className='btn btn-sm btn-outline btn-secondary'><FaTrashAlt /></button>
+                                                    {
+                                                        product.advertise !== 1 ? 
+                                                        <label onClick={() => handleUpdate(product._id)} htmlFor="category-modal" className='btn btn-sm btn-outline btn-success mr-2'><FaBolt /></label>:
+                                                        <label onClick={() => toast.success('Already in Advertisement')} htmlFor="category-modal" className='btn btn-sm btn-outline btn-success mr-2'><FaCheck /></label>
+                                                    }
+                                                    <label onClick={() => {setCar(product); setClose([])}} htmlFor="confirmation-modal" className="btn btn-sm btn-outline btn-secondary"><FaTrashAlt /></label>
                                                 </td>
                                             </tr>
                                         )
@@ -72,6 +109,9 @@ const Products = () => {
             </div>
             {
                 close && <ProductModal setClose={setClose} refetch={refetch}></ProductModal>
+            }
+            {
+                close && <ConfirmationModal handleDelete={handleDelete} car={car}></ConfirmationModal>
             }
         </>
     );
