@@ -15,6 +15,7 @@ import { baseUrl } from "../../Helper/Helper";
 import CategoryProducts from "../../pages/CategoryProducts/CategoryProducts";
 import AllCars from "../../pages/AllCars/AllCars";
 import MyBookings from "../../pages/Admin/MyBookings/MyBookings";
+import Orders from "../../pages/Admin/Orders/Orders";
 
 
 export const routes = createBrowserRouter([
@@ -74,6 +75,10 @@ export const routes = createBrowserRouter([
             {
                 path: '/user/bookings',
                 element: <MyBookings></MyBookings>
+            },
+            {
+                path: '/user/orders',
+                element: <Orders></Orders>
             }
         ]
     },

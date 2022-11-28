@@ -5,8 +5,8 @@ import { FaBolt, FaCheck, FaPlus, FaTrashAlt } from 'react-icons/fa';
 import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
 import { baseUrl } from '../../../Helper/Helper';
 import BreadCrumb from '../../../layouts/Profile/partials/BreadCrumb/BreadCrumb';
-import load from '../../../loading.gif';
 import ConfirmationModal from '../../Common/ConfirmationModal';
+import Loading from '../../Common/Loading';
 import ProductModal from '../../Common/ProductModal';
 
 const Products = () => {
@@ -53,7 +53,7 @@ const Products = () => {
     }
 
     if (isLoading) {
-        return <div className='flex justify-center items-center h-screen'><img src={load} alt="loader" /></div>
+        return <Loading/>;
     }
 
     return (

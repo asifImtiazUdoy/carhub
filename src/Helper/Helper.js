@@ -1,4 +1,4 @@
-const baseUrl = "https://assignment12-backend.vercel.app/";
+const baseUrl = "http://localhost:5000";
 
 export {
     baseUrl

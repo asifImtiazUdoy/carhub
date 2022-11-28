@@ -7,6 +7,7 @@ import { baseUrl } from '../../Helper/Helper';
 const ProductModal = ({setClose, refetch}) => {
     const {user} = useContext(AuthContext);
     const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     useEffect(() => {
@@ -15,9 +16,10 @@ const ProductModal = ({setClose, refetch}) => {
         .then(data => setCategories(data))
     },[])
     const handleCreate = (data) => {
+        setLoading(true);
         const formData = new FormData();
         formData.append('image', data.image[0]);
-        fetch(`https://api.imgbb.com/1/upload?expiration=600&key=${process.env.REACT_APP_imagebb_key}`, {
+        fetch(`https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_imagebb_key}`, {
             method: "POST",
             body: formData
         })
@@ -43,7 +45,7 @@ const ProductModal = ({setClose, refetch}) => {
                 })
                 .then(res => res.json())
                 .then(result => {
-                    if (result.acknowledge) {
+                    if (result.acknowledged) {
                         setClose(null);
                         toast.success('Product added Successfully!')
                         refetch();
@@ -117,7 +119,7 @@ const ProductModal = ({setClose, refetch}) => {
                                     {errors.use && <span className='text-red-600'>This field is required</span>}
                                 </div>
                             </div>
-                            <input className='btn btn-secondary w-full mt-6' type="submit" value="Submit" />
+                            <input className='btn btn-secondary w-full mt-6' type="submit" value={`${loading ? 'Uploading...':'Submit'}`} />
                         </div>
                     </form>
                 </div>

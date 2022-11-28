@@ -50,7 +50,7 @@ const Sidebar = () => {
                                 <Link className='flex justify-start items-center font-semibold'><FaShoppingCart />My Carts</Link>
                             </li>
                             <li className='border-b-2'>
-                                <Link className='flex justify-start items-center font-semibold'><FaShoppingBasket />My Purchases</Link>
+                                <Link to='/user/orders' className='flex justify-start items-center font-semibold'><FaShoppingBasket />My Orders</Link>
                             </li>
                         </>
                     }

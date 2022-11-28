@@ -20,7 +20,8 @@ const BookingModal = ({setClose, car}) => {
             buyer: currentUser.name,
             buyer_email: currentUser.email,
             seller_email: car.email,
-            product: car._id,
+            product_id: car._id,
+            product_name: car.name,
             price: car.price,
             buyer_phone: data.phone,
             meetup: data.meet
