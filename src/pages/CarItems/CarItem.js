@@ -6,7 +6,7 @@ const CarItem = (props) => {
     const [close, setClose] = useState(null);
     const {name, image, original_price, price, location, use} = props.car;
     return (
-        <div className="card bg-base-200 shadow-xl">
+        <div className="card bg-base-200 shadow-xl mb-16">
             <figure className="px-4 -mt-12 relative">
                 <img src={image} alt="Shoes" className="rounded-xl shadow" />
                     <span className='font-bold absolute right-6 bottom-2 bg-primary text-white px-4 py-1 rounded'>${price}</span>

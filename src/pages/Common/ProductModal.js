@@ -44,9 +44,9 @@ const ProductModal = ({setClose, refetch}) => {
                 .then(res => res.json())
                 .then(result => {
                     if (result.acknowledge) {
+                        setClose(null);
                         toast.success('Product added Successfully!')
                         refetch();
-                        setClose(null);
                     }
                 })
             }
