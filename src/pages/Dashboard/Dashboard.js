@@ -15,8 +15,8 @@ const Dashboard = () => {
                 <h2 className="card-title mb-8">Dashboard</h2>
                 <div className="grid grid-cols-4 gap-4">
                     <Link>
-                        <div class="card bg-secondary text-primary-content shadow-lg">
-                            <div class="card-body p-4 flex-row justify-between items-center">
+                        <div className="card bg-secondary text-primary-content shadow-lg">
+                            <div className="card-body p-4 flex-row justify-between items-center">
                                 <h2 className='border-r-2 text-4xl font-bold px-2 pr-4'><FaUserAlt /></h2>
                                 <p className="mb-0 text-2xl font-bold text-center uppercase">Buyer</p>
                             </div>

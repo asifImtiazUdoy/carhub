@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
+import BookingModal from '../Common/BookingModal';
 
 const CarItem = (props) => {
+    const [close, setClose] = useState(null);
     const {name, image, original_price, price, location, use} = props.car;
     return (
         <div className="card bg-base-200 shadow-xl">
@@ -16,8 +18,11 @@ const CarItem = (props) => {
                     <p className='flex items-center font-semibold'><FaMapMarkerAlt className='text-secondary' />&nbsp;{location}</p>
                     <p className='flex justify-end items-center font-semibold'><FaCalendarAlt className='text-secondary' />&nbsp;{use} years</p>
                 </div>
-                <button className="btn btn-sm btn-secondary w-full">Book Now</button>
+                <label onClick={() => setClose([])} htmlFor='booking-modal' className="btn btn-sm btn-secondary w-full">Book Now</label>
             </div>
+            {
+                close && <BookingModal setClose={setClose} car={props.car}></BookingModal>
+            }
         </div>
     );
 };

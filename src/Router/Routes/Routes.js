@@ -13,6 +13,8 @@ import AllUsers from "../../pages/Admin/AllUsers/AllUsers";
 import Products from "../../pages/Admin/Products/Products";
 import { baseUrl } from "../../Helper/Helper";
 import CategoryProducts from "../../pages/CategoryProducts/CategoryProducts";
+import AllCars from "../../pages/AllCars/AllCars";
+import MyBookings from "../../pages/Admin/MyBookings/MyBookings";
 
 
 export const routes = createBrowserRouter([
@@ -25,8 +27,12 @@ export const routes = createBrowserRouter([
                 element: <Home></Home>
             },
             {
+                path: '/products',
+                element: <AllCars></AllCars>
+            },
+            {
                 path: '/category/:name',
-                element: <CategoryProducts></CategoryProducts>,
+                element: <PrivateRoutes><CategoryProducts></CategoryProducts></PrivateRoutes>,
                 loader: async ({params}) => {
                     return fetch(`${baseUrl}/category/products/${params.name}`)
                 }
@@ -64,6 +70,10 @@ export const routes = createBrowserRouter([
             {
                 path: '/user/products',
                 element: <Products></Products>
+            },
+            {
+                path: '/user/bookings',
+                element: <MyBookings></MyBookings>
             }
         ]
     },

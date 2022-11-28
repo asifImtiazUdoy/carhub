@@ -2,9 +2,16 @@ import React, { useContext } from 'react';
 import { FaCarAlt, FaFileAlt, FaFire, FaHeart, FaShoppingBasket, FaShoppingCart, FaUserAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../../contexts/AuthProvider/AuthProvider';
+import useUser from '../../../../Hooks/useUser';
+import Loading from '../../../../pages/Common/Loading';
 
 const Sidebar = () => {
     const { user } = useContext(AuthContext);
+    const [currentUser, userLoading] = useUser(user?.email);
+
+    if (userLoading) {
+        return <Loading></Loading>
+    }
 
     return (
         <div className="drawer-side mt-16 shadow-lg">
@@ -25,32 +32,52 @@ const Sidebar = () => {
                                 </div>
                         }
                     </div>
-                    <h2 className='font-bold text-2xl mb-2'>{user?.displayName}</h2>
-                    <p className='badge badge-secondary px-4'>Buyer</p>
+                    <h2 className='font-bold text-2xl mb-2'>{currentUser.name ? currentUser.name:user?.displayName}</h2>
+                    <p className={`badge ${currentUser.type === 'Buyer' ? 'badge-primary' : 'badge-secondary'} px-4`}>{currentUser.type}</p>
                 </div>
                 <div className="divider"></div>
                 <ul className="menu p-4 text-base-content bg-base-100 lg:ml-24 rounded">
                     <li className='border-b-2'>
                         <Link to='/user' className='flex justify-start items-center font-semibold'><FaFire />Dashboard</Link>
                     </li>
-                    <li className='border-b-2'>
-                        <Link className='flex justify-start items-center font-semibold'><FaHeart />My Wishlist</Link>
-                    </li>
-                    <li className='border-b-2'>
-                        <Link className='flex justify-start items-center font-semibold'><FaShoppingCart />My Carts</Link>
-                    </li>
-                    <li className='border-b-2'>
-                        <Link className='flex justify-start items-center font-semibold'><FaShoppingBasket />My Purchases</Link>
-                    </li>
-                    <li className='border-b-2'>
-                        <Link to='/user/categories' className='flex justify-start items-center font-semibold'><FaFileAlt />All Categories</Link>
-                    </li>
-                    <li className='border-b-2'>
-                        <Link to='/user/allusers' className='flex justify-start items-center font-semibold'><FaUserAlt />All users</Link>
-                    </li>
-                    <li className='border-b-2'>
-                        <Link to='/user/products' className='flex justify-start items-center font-semibold'><FaCarAlt />My Products</Link>
-                    </li>
+                    {
+                        currentUser.type === "Buyer" &&
+                        <>
+                            <li className='border-b-2'>
+                                <Link className='flex justify-start items-center font-semibold'><FaHeart />My Wishlist</Link>
+                            </li>
+                            <li className='border-b-2'>
+                                <Link className='flex justify-start items-center font-semibold'><FaShoppingCart />My Carts</Link>
+                            </li>
+                            <li className='border-b-2'>
+                                <Link className='flex justify-start items-center font-semibold'><FaShoppingBasket />My Purchases</Link>
+                            </li>
+                        </>
+                    }
+
+                    {
+                        currentUser.type === "Seller" &&
+                        <>
+                            <li className='border-b-2'>
+                                <Link to='/user/products' className='flex justify-start items-center font-semibold'><FaCarAlt />My Products</Link>
+                            </li>
+                            <li className='border-b-2'>
+                                <Link to='/user/bookings' className='flex justify-start items-center font-semibold'><FaCarAlt />My Bookings</Link>
+                            </li>
+                        </>
+                    }
+                    {
+                        currentUser.type === "Admin" &&
+                        <>
+                            <li className='border-b-2'>
+                                <Link to='/user/categories' className='flex justify-start items-center font-semibold'><FaFileAlt />All Categories</Link>
+                            </li>
+                            <li className='border-b-2'>
+                                <Link to='/user/allusers' className='flex justify-start items-center font-semibold'><FaUserAlt />All users</Link>
+                            </li></>
+                    }
+
+
                 </ul>
             </aside>
         </div>

@@ -1,22 +1,31 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { FaGoogle } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
+import { baseUrl } from '../../Helper/Helper';
+import useToken from '../../Hooks/useToken';
 
 const Login = () => {
     const { login, googleLogin } = useContext(AuthContext);
+    const [createdUser, setCreatedUser] = useState('');
     const { register, handleSubmit, formState: { errors } } = useForm();
     const location = useLocation();
     const navigate = useNavigate();
+    const [token] = useToken(createdUser);
 
     const from = location.state?.from?.pathname || '/';
+
+    if (token) {
+        navigate(from, { replace: true });
+    }
 
     const handleLogin = (data) => {
         login(data.email, data.password)
             .then(result => {
                 const user = result.user;
-                console.log(user);
+                setCreatedUser(user.email);
                 navigate(from, { replace: true })
             })
             .catch(e => console.error(e))
@@ -26,7 +35,23 @@ const Login = () => {
         googleLogin()
             .then(result => {
                 console.log(result.user);
-                navigate(from, { replace: true });
+                const user = {
+                    name: result.user.displayName,
+                    email: result.user.email,
+                    type: "Buyer"
+                }
+                fetch(`${baseUrl}/user`, {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    setCreatedUser(data.email);
+                    toast.success('User Created Successfully');
+                })
             })
             .catch(e => console.error(e))
     }

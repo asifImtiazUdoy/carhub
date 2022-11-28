@@ -23,8 +23,8 @@ const Header = ({ profile }) => {
 
     const menu = <>
         <li className='lg:uppercase font-semibold'><Link to='/'>Home</Link></li>
+        <li className='lg:uppercase font-semibold'><Link to='/products'>Cars</Link></li>
         <li className='lg:uppercase font-semibold'><Link to='/blog'>Blog</Link></li>
-        <li className='lg:uppercase font-semibold'><Link to='/'>About</Link></li>
     </>
 
     return (

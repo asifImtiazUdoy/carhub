@@ -1,18 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { FaGoogle } from 'react-icons/fa';
 import { baseUrl } from '../../Helper/Helper';
 import toast from 'react-hot-toast';
+import useToken from '../../Hooks/useToken';
 
 const Register = () => {
     const { createUser, googleLogin } = useContext(AuthContext);
+    const [createdUser, setCreatedUser] = useState('');
     const { register, handleSubmit, formState: { errors } } = useForm();
     const location = useLocation();
     const navigate = useNavigate();
+    const [token] = useToken(createdUser);
 
     const from = location.state?.from?.pathname || '/';
+
+    if (token) {
+        navigate(from, { replace: true });
+    }
 
     const handleLogin = (data) => {
         const user = {
@@ -20,7 +27,7 @@ const Register = () => {
             email: data.email,
             type: data.type ? data.type: 'Buyer'
         }
-        console.log(user);
+        
         createUser(data.email, data.password)
             .then(result => {
                 if (result.user?.uid) {
@@ -33,15 +40,8 @@ const Register = () => {
                     })
                     .then(res => res.json())
                     .then(data => {
-                        fetch(`${baseUrl}/jwt?email=${data.email}`)
-                        .then(res => res.json())
-                        .then(data => {
-                            if (data.accessToken) {
-                                localStorage.setItem('access-token', data.accessToken);
-                                navigate(from, { replace: true });
-                                toast.success('User Created Successfully!')
-                            }
-                        })
+                        setCreatedUser(data.email);
+                        toast.success('User Created Successfully');
                     })
                 }
             })
@@ -51,7 +51,23 @@ const Register = () => {
     const handleGoogleLogin = () => {
         googleLogin()
             .then(result => {
-                navigate(from, { replace: true });
+                const user = {
+                    name: result.user.displayName,
+                    email: result.user.email,
+                    type: "Buyer"
+                }
+                fetch(`${baseUrl}/user`, {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    setCreatedUser(data.email);
+                    toast.success('User Created Successfully');
+                })
             })
             .catch(e => console.error(e))
     }

@@ -1,15 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import { baseUrl } from '../../Helper/Helper';
-import CarItem from './CarItem';
-import Loading from '../Common/Loading';
 import { FaCar } from 'react-icons/fa';
+import { baseUrl } from '../../Helper/Helper';
+import CarItem from '../CarItems/CarItem';
+import Loading from '../Common/Loading';
 
-const CarItems = () => {
+const AllCars = () => {
     const { data: cars = [], isLoading } = useQuery({
         queryKey: ['cars'],
         queryFn: async () => {
-            const res = await fetch(`${baseUrl}/products/advertise`)
+            const res = await fetch(`${baseUrl}/products`)
             const data = res.json()
             return data;
         }
@@ -22,7 +22,7 @@ const CarItems = () => {
     return ( cars.length > 0 &&
         <div>
             <div>
-                <h1 className='text-center text-3xl font-bold mb-4 mt-20 uppercase'>Recommende Cars</h1>
+                <h1 className='text-center text-3xl font-bold mb-4 mt-20 uppercase'>All Cars</h1>
                 <div className="flex justify-center items-center">
                     <span className='w-16 h-1 bg-secondary rounded'></span>
                     <span className='px-2'><FaCar></FaCar></span>
@@ -38,4 +38,4 @@ const CarItems = () => {
     );
 };
 
-export default CarItems;
+export default AllCars;
