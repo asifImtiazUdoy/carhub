@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { FaPencilAlt, FaPlus, FaTrashAlt } from 'react-icons/fa';
-import { baseUrl } from '../../Helper/Helper';
-import BreadCrumb from '../../layouts/Profile/partials/BreadCrumb/BreadCrumb';
-import CategoryModal from '../Common/CategoryModal';
-import load from '../../loading.gif';
+import { baseUrl } from '../../../Helper/Helper';
+import BreadCrumb from '../../../layouts/Profile/partials/BreadCrumb/BreadCrumb';
+import CategoryModal from '../../Common/CategoryModal';
+import load from '../../../loading.gif';
 
 const Categories = () => {
     const [close, setClose] = useState([]);
@@ -49,7 +49,7 @@ const Categories = () => {
                                                 <td>{category.name}</td>
                                                 <td>
                                                     <label onClick={() => setClose([])} htmlFor="category-modal" className='btn btn-sm btn-outline btn-success mr-2'><FaPencilAlt /></label>
-                                                    <button className='btn btn-sm btn-outline btn-secondary'><FaTrashAlt/></button>
+                                                    <button className='btn btn-sm btn-outline btn-secondary'><FaTrashAlt /></button>
                                                 </td>
                                             </tr>
                                         )

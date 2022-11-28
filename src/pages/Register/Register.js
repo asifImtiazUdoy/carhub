@@ -33,8 +33,15 @@ const Register = () => {
                     })
                     .then(res => res.json())
                     .then(data => {
-                        navigate(from, { replace: true });
-                        toast.success('User Created Successfully!')
+                        fetch(`${baseUrl}/jwt?email=${data.email}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.accessToken) {
+                                localStorage.setItem('access-token', data.accessToken);
+                                navigate(from, { replace: true });
+                                toast.success('User Created Successfully!')
+                            }
+                        })
                     })
                 }
             })

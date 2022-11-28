@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { FaFileAlt, FaFire, FaHeart, FaShoppingBasket, FaShoppingCart, FaUserAlt } from 'react-icons/fa';
+import { FaCarAlt, FaFileAlt, FaFire, FaHeart, FaShoppingBasket, FaShoppingCart, FaUserAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../../contexts/AuthProvider/AuthProvider';
 
@@ -7,7 +7,7 @@ const Sidebar = () => {
     const { user } = useContext(AuthContext);
 
     return (
-        <div className="drawer-side z-0 mt-16 shadow-lg">
+        <div className="drawer-side mt-16 shadow-lg">
             <label htmlFor="sidebar" className="drawer-overlay"></label>
             <aside className='bg-base-200 w-80 lg:w-full'>
                 <div className="lg:ml-24 ml-6 mt-4 mb-8">
@@ -19,7 +19,9 @@ const Sidebar = () => {
                                 </div>
                                 :
                                 <div className="w-28 rounded-full">
-                                    <FaUserAlt className='text-2xl'></FaUserAlt>
+                                    <div className="flex justify-center items-center h-full border-8">
+                                        <FaUserAlt className='text-5xl text-center'></FaUserAlt>
+                                    </div>
                                 </div>
                         }
                     </div>
@@ -42,6 +44,12 @@ const Sidebar = () => {
                     </li>
                     <li className='border-b-2'>
                         <Link to='/user/categories' className='flex justify-start items-center font-semibold'><FaFileAlt />All Categories</Link>
+                    </li>
+                    <li className='border-b-2'>
+                        <Link to='/user/allusers' className='flex justify-start items-center font-semibold'><FaUserAlt />All users</Link>
+                    </li>
+                    <li className='border-b-2'>
+                        <Link to='/user/products' className='flex justify-start items-center font-semibold'><FaCarAlt />My Products</Link>
                     </li>
                 </ul>
             </aside>
