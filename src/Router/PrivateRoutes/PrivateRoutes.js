@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
-import load from '../../loading.gif';
+import Loading from '../../pages/Common/Loading';
 
 const PrivateRoutes = ({children}) => {
     const { user, loading } = useContext(AuthContext);
     const location = useLocation();
     
     if (loading) {
-        return <div className='flex justify-center items-center h-screen'><img src={load} alt="loader" /></div>
+        return <Loading></Loading>
     }
 
     if (user) {

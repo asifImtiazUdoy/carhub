@@ -4,7 +4,7 @@ import { FaPencilAlt, FaPlus, FaTrashAlt } from 'react-icons/fa';
 import { baseUrl } from '../../../Helper/Helper';
 import BreadCrumb from '../../../layouts/Profile/partials/BreadCrumb/BreadCrumb';
 import CategoryModal from '../../Common/CategoryModal';
-import load from '../../../loading.gif';
+import Loading from '../../Common/Loading';
 
 const Categories = () => {
     const [close, setClose] = useState([]);
@@ -18,7 +18,7 @@ const Categories = () => {
     });
 
     if (isLoading) {
-        return <div className='flex justify-center items-center h-screen'><img src={load} alt="loader" /></div>
+        return <Loading></Loading>
     }
 
     return (

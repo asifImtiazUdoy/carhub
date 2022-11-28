@@ -11,6 +11,8 @@ import Register from "../../pages/Register/Register";
 import PrivateRoutes from "../PrivateRoutes/PrivateRoutes";
 import AllUsers from "../../pages/Admin/AllUsers/AllUsers";
 import Products from "../../pages/Admin/Products/Products";
+import { baseUrl } from "../../Helper/Helper";
+import CategoryProducts from "../../pages/CategoryProducts/CategoryProducts";
 
 
 export const routes = createBrowserRouter([
@@ -21,6 +23,13 @@ export const routes = createBrowserRouter([
             {
                 path: '/',
                 element: <Home></Home>
+            },
+            {
+                path: '/category/:name',
+                element: <CategoryProducts></CategoryProducts>,
+                loader: async ({params}) => {
+                    return fetch(`${baseUrl}/category/products/${params.name}`)
+                }
             },
             {
                 path: '/blog',
