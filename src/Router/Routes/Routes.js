@@ -17,6 +17,7 @@ import AllCars from "../../pages/AllCars/AllCars";
 import MyBookings from "../../pages/Admin/MyBookings/MyBookings";
 import Orders from "../../pages/Admin/Orders/Orders";
 import AdminRoutes from "../AdminRoutes/AdminRoutes";
+import Details from "../../pages/Details/Details";
 
 
 export const routes = createBrowserRouter([
@@ -31,6 +32,13 @@ export const routes = createBrowserRouter([
             {
                 path: '/products',
                 element: <AllCars></AllCars>
+            },
+            {
+                path: '/car/:id',
+                element: <Details></Details>,
+                loader: async ({params}) => {
+                    return fetch(`${baseUrl}/product/${params.id}`)
+                }
             },
             {
                 path: '/category/:name',

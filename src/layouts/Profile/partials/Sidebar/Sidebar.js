@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { FaCarAlt, FaFileAlt, FaFire, FaHeart, FaShoppingBasket, FaShoppingCart, FaUserAlt } from 'react-icons/fa';
+import { FaCarAlt, FaFileAlt, FaFire, FaShoppingBasket, FaUserAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../../contexts/AuthProvider/AuthProvider';
 import useUser from '../../../../Hooks/useUser';
@@ -43,12 +43,6 @@ const Sidebar = () => {
                     {
                         currentUser.type === "Buyer" &&
                         <>
-                            <li className='border-b-2'>
-                                <Link className='flex justify-start items-center font-semibold'><FaHeart />My Wishlist</Link>
-                            </li>
-                            <li className='border-b-2'>
-                                <Link className='flex justify-start items-center font-semibold'><FaShoppingCart />My Carts</Link>
-                            </li>
                             <li className='border-b-2'>
                                 <Link to='/user/orders' className='flex justify-start items-center font-semibold'><FaShoppingBasket />My Orders</Link>
                             </li>

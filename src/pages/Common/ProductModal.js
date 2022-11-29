@@ -3,9 +3,11 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import { baseUrl } from '../../Helper/Helper';
+import useUser from '../../Hooks/useUser';
 
 const ProductModal = ({setClose, refetch}) => {
     const {user} = useContext(AuthContext);
+    const [currentUser] = useUser(user?.email);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -28,6 +30,7 @@ const ProductModal = ({setClose, refetch}) => {
             if (imgResult.success) {
                 const product = {
                     name: data.name,
+                    seller_name: currentUser.name,
                     email: user.email,
                     category: data.category_id,
                     image: imgResult.data.url,
@@ -39,7 +42,8 @@ const ProductModal = ({setClose, refetch}) => {
                 fetch(`${baseUrl}/product`, {
                     method: "POST",
                     headers: {
-                        'content-type': 'application/json'
+                        'content-type': 'application/json',
+                        authorization: `bearer ${localStorage.getItem('access-token')}`
                     },
                     body: JSON.stringify(product)
                 })

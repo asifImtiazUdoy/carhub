@@ -10,7 +10,8 @@ const CategoryModal = ({setClose, refetch}) => {
         fetch(`${baseUrl}/category`, {
             method: "POST",
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                authorization: `bearer ${localStorage.getItem('access-token')}`
             },
             body: JSON.stringify(data)
         })

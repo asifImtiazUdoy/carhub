@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ConfirmationModal = ({car, handleDelete}) => {
+const ConfirmationModal = ({data, handleDelete}) => {
 
     return (
         <div>
@@ -10,7 +10,7 @@ const ConfirmationModal = ({car, handleDelete}) => {
                     <h3 className="font-bold text-lg">Are You Sure You Want to Delete?</h3>
                     <p className="py-4">You won't be able to get back once deleted the item.</p>
                     <div className="modal-action">
-                        <label onClick={() => handleDelete(car._id)} htmlFor="confirmation-modal" className="btn btn-secondary">Confirm</label>
+                        <label onClick={() => handleDelete(data._id)} htmlFor="confirmation-modal" className="btn btn-secondary">Confirm</label>
                         <label htmlFor="confirmation-modal" className="btn btn-outline">Cancel</label>
                     </div>
                 </div>

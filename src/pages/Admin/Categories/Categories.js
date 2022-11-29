@@ -1,13 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
-import { FaPencilAlt, FaPlus, FaTrashAlt } from 'react-icons/fa';
+import toast from 'react-hot-toast';
+import { FaPlus, FaTrashAlt } from 'react-icons/fa';
 import { baseUrl } from '../../../Helper/Helper';
 import BreadCrumb from '../../../layouts/Profile/partials/BreadCrumb/BreadCrumb';
 import CategoryModal from '../../Common/CategoryModal';
+import ConfirmationModal from '../../Common/ConfirmationModal';
 import Loading from '../../Common/Loading';
 
 const Categories = () => {
-    const [close, setClose] = useState([]);
+    const [close, setClose] = useState(null);
+    const [cat, setCat] = useState('');
     const { data: categories = [], isLoading, refetch } = useQuery({
         queryKey: ['categories'],
         queryFn: async () => {
@@ -16,6 +19,24 @@ const Categories = () => {
             return data;
         }
     });
+
+    const handleDelete = (id) => {
+        fetch(`${baseUrl}/category/${id}`, {
+            method: "DELETE",
+            headers: {
+                authorization: `bearer ${localStorage.getItem('access-token')}`
+            }
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.deletedCount > 0) {
+                    setClose(null);
+                    refetch();
+                    toast.success("Item Deleted Successfully!")
+                }
+            })
+
+    }
 
     if (isLoading) {
         return <Loading></Loading>
@@ -48,8 +69,10 @@ const Categories = () => {
                                                 <th>{index + 1}</th>
                                                 <td>{category.name}</td>
                                                 <td>
-                                                    <label onClick={() => setClose([])} htmlFor="category-modal" className='btn btn-sm btn-outline btn-success mr-2'><FaPencilAlt /></label>
-                                                    <button className='btn btn-sm btn-outline btn-secondary'><FaTrashAlt /></button>
+                                                    {/* <label onClick={() => setClose([])} htmlFor="category-modal" className='btn btn-sm btn-outline btn-success mr-2'><FaPencilAlt /></label> */}
+                                                    <div className="tooltip" data-tip="Delete Category">
+                                                        <label onClick={() => { setCat(category); setClose([]) }} htmlFor="confirmation-modal" className='btn btn-sm btn-outline btn-secondary'><FaTrashAlt /></label>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         )
@@ -62,6 +85,9 @@ const Categories = () => {
             </div>
             {
                 close && <CategoryModal setClose={setClose} refetch={refetch}></CategoryModal>
+            }
+            {
+                close && <ConfirmationModal handleDelete={handleDelete} data={cat}></ConfirmationModal>
             }
         </>
     );

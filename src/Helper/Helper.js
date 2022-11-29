@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:5000";
+const baseUrl = "https://carhub-iota.vercel.app";
 
 export {
     baseUrl

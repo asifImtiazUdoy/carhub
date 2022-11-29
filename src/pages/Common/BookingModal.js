@@ -6,8 +6,8 @@ import { baseUrl } from '../../Helper/Helper';
 import useUser from '../../Hooks/useUser'
 import Loading from './Loading';
 
-const BookingModal = ({setClose, car}) => {
-    const {user} = useContext(AuthContext);
+const BookingModal = ({ setClose, car }) => {
+    const { user } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [currentUser, userLoading] = useUser(user?.email);
 
@@ -18,6 +18,7 @@ const BookingModal = ({setClose, car}) => {
     const handleCreate = (data) => {
         const booking = {
             buyer: currentUser.name,
+            seller: car.seller_name,
             buyer_email: currentUser.email,
             seller_email: car.email,
             product_id: car._id,
@@ -34,21 +35,23 @@ const BookingModal = ({setClose, car}) => {
             },
             body: JSON.stringify(booking)
         })
-        .then(res => res.json())
-        .then(data => {
-            if (data.acknowledged) {
-                setClose(null);
-                toast.success('Booking Successful!');
-            }
-        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.acknowledged) {
+                    setClose(null);
+                    toast.success('Booking Successful!');
+                }
+            })
     }
+    
     return (
+        car.booked !== 1 &&
         <div>
             <input type="checkbox" id="booking-modal" className="modal-toggle" />
             <div className="modal">
                 <div className="modal-box relative">
                     <label htmlFor="booking-modal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                    <h3 className="text-xl text-center font-bold">Create Category</h3>
+                    <h3 className="text-xl text-center font-bold">Book this Car</h3>
                     <form onSubmit={handleSubmit(handleCreate)}>
                         <div className="card-body">
                             <div className="form-control">
@@ -89,7 +92,7 @@ const BookingModal = ({setClose, car}) => {
                                 <input type="text" {...register('meet', { required: true })} placeholder="Meetup Location" className="input input-bordered" />
                                 {errors.meet && <span className='text-red-600'>This field is required</span>}
                             </div>
-                                <input className='btn btn-secondary w-full mt-6' type="submit" value="Submit" />
+                            <input className='btn btn-secondary w-full mt-6' type="submit" value="Submit" />
                         </div>
                     </form>
                 </div>

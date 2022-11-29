@@ -48,7 +48,7 @@ const Login = () => {
                 .then(res => res.json())
                 .then(data => {
                     setCreatedUser(data.email);
-                    toast.success('User Created Successfully');
+                    toast.success('User Login Successfully');
                 })
             })
             .catch(e => console.error(e))

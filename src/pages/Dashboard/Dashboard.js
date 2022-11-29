@@ -2,10 +2,17 @@ import React, { useContext } from 'react';
 import { FaEnvelope, FaMobile, FaUserAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
+import useUser from '../../Hooks/useUser';
 import BreadCrumb from '../../layouts/Profile/partials/BreadCrumb/BreadCrumb';
+import Loading from '../Common/Loading';
 
 const Dashboard = () => {
     const { user } = useContext(AuthContext);
+    const [currentUser, userLoading] = useUser(user?.email);
+
+    if (userLoading) {
+        <Loading></Loading>
+    }
 
     return (
         <div className="card w-full bg-base-100 shadow-lg">
@@ -15,10 +22,10 @@ const Dashboard = () => {
                 <h2 className="card-title mb-8">Dashboard</h2>
                 <div className="grid grid-cols-4 gap-4">
                     <Link>
-                        <div className="card bg-secondary text-primary-content shadow-lg">
+                        <div className={`card text-primary-content shadow-lg ${currentUser.type === 'Buyer' ? 'bg-primary' : 'bg-secondary'}`}>
                             <div className="card-body p-4 flex-row justify-between items-center">
                                 <h2 className='border-r-2 text-4xl font-bold px-2 pr-4'><FaUserAlt /></h2>
-                                <p className="mb-0 text-2xl font-bold text-center uppercase">Buyer</p>
+                                <p className="mb-0 text-2xl font-bold text-center uppercase">{currentUser.type}</p>
                             </div>
                         </div>
                     </Link>

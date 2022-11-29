@@ -1,18 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react';
-import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
 import { baseUrl } from '../../../Helper/Helper';
 import BreadCrumb from '../../../layouts/Profile/partials/BreadCrumb/BreadCrumb';
 import Loading from '../../Common/Loading';
 
 const MyBookings = () => {
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
     const { data: mybookings = [], isLoading } = useQuery({
         queryKey: ['mybookings'],
         queryFn: async () => {
-            const res = await fetch(`${baseUrl}/bookings?email=${user?.email}`);
+            const res = await fetch(`${baseUrl}/bookings?email=${user?.email}`, {
+                headers: {
+                    authorization: `bearer ${localStorage.getItem('access-token')}`
+                }
+            });
             const data = res.json();
             return data;
         }

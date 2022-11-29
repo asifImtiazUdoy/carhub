@@ -10,7 +10,7 @@ import Loading from '../../Common/Loading';
 import ProductModal from '../../Common/ProductModal';
 
 const Products = () => {
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const [close, setClose] = useState(null);
     const [car, setCar] = useState('');
 
@@ -30,33 +30,36 @@ const Products = () => {
                 authorization: `bearer ${localStorage.getItem('access-token')}`
             }
         })
-        .then(res => res.json())
-        .then(result => {
-            if (result.acknowledge) {
-                setClose(null);
-                refetch();
-                toast.success("Added to Advertisement Successfully!")
-            }
-        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.acknowledged) {
+                    setClose(null);
+                    refetch();
+                    toast.success("Added to Advertisement Successfully!")
+                }
+            })
     }
 
     const handleDelete = (id) => {
         fetch(`${baseUrl}/product/${id}`, {
             method: "DELETE",
-        })
-        .then(res => res.json())
-        .then(result => {
-            if (result.deletedCount > 0) {
-                setClose(null);
-                refetch();
-                toast.success("Item Deleted Successfully!")
+            headers: {
+                authorization: `bearer ${localStorage.getItem('access-token')}`
             }
         })
+            .then(res => res.json())
+            .then(result => {
+                if (result.deletedCount > 0) {
+                    setClose(null);
+                    refetch();
+                    toast.success("Item Deleted Successfully!")
+                }
+            })
 
     }
 
     if (isLoading) {
-        return <Loading/>;
+        return <Loading />;
     }
 
     return (
@@ -95,11 +98,17 @@ const Products = () => {
                                                 <td>{product.use}</td>
                                                 <td>
                                                     {
-                                                        product.advertise !== 1 ? 
-                                                        <label onClick={() => handleUpdate(product._id)} htmlFor="category-modal" className='btn btn-sm btn-outline btn-success mr-2'><FaBolt /></label>:
-                                                        <label onClick={() => toast.success('Already in Advertisement')} htmlFor="category-modal" className='btn btn-sm btn-outline btn-success mr-2'><FaCheck /></label>
+                                                        product.advertise !== 1 ?
+                                                            <div className="tooltip" data-tip="Advertise this Car">
+                                                                <label onClick={() => handleUpdate(product._id)} htmlFor="category-modal" className='btn btn-sm btn-outline btn-success mr-2'><FaBolt /></label>
+                                                            </div> :
+                                                            <div className="tooltip" data-tip="Already Advertised">
+                                                                <label onClick={() => toast.success('Already in Advertisement')} htmlFor="category-modal" className='btn btn-sm btn-outline btn-success mr-2'><FaCheck /></label>
+                                                            </div>
                                                     }
-                                                    <label onClick={() => {setCar(product); setClose([])}} htmlFor="confirmation-modal" className="btn btn-sm btn-outline btn-secondary"><FaTrashAlt /></label>
+                                                    <div className="tooltip" data-tip="Delete Item">
+                                                        <label onClick={() => { setCar(product); setClose([]) }} htmlFor="confirmation-modal" className="btn btn-sm btn-outline btn-secondary"><FaTrashAlt /></label>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         )
@@ -114,7 +123,7 @@ const Products = () => {
                 close && <ProductModal setClose={setClose} refetch={refetch}></ProductModal>
             }
             {
-                close && <ConfirmationModal handleDelete={handleDelete} car={car}></ConfirmationModal>
+                close && <ConfirmationModal handleDelete={handleDelete} data={car}></ConfirmationModal>
             }
         </>
     );

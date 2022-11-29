@@ -1,15 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
-import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
+import React, { useState } from 'react';
+import toast from 'react-hot-toast';
+import { FaCheck, FaShieldAlt, FaTrashAlt } from 'react-icons/fa';
 import { baseUrl } from '../../../Helper/Helper';
 import BreadCrumb from '../../../layouts/Profile/partials/BreadCrumb/BreadCrumb';
-import load from '../../../loading.gif';
+import ConfirmationModal from '../../Common/ConfirmationModal';
+import Loading from '../../Common/Loading';
 
 const AllUsers = () => {
-    const { data: allUsers = [], isLoading } = useQuery({
+    const [close, setClose] = useState(null);
+    const [deleteUser, setDeleteUser] = useState('');
+
+    const { data: allUsers = [], isLoading, refetch } = useQuery({
         queryKey: ['allUsers'],
         queryFn: async () => {
-            const res = await fetch(`${baseUrl}/users`,{
+            const res = await fetch(`${baseUrl}/users`, {
                 headers: {
                     authorization: `bearer ${localStorage.getItem('access-token')}`
                 }
@@ -19,8 +24,43 @@ const AllUsers = () => {
         }
     });
 
+    const handleMakeAdmin = (id) => {
+        fetch(`${baseUrl}/user/admin/${id}`, {
+            method: "PUT",
+            headers: {
+                authorization: `bearer ${localStorage.getItem('access-token')}`
+            }
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.acknowledged) {
+                    refetch();
+                    toast.success("Promoted to Admin!")
+                }
+            })
+    }
+
+
+    const handleDelete = (id) => {
+        fetch(`${baseUrl}/user/${id}`, {
+            method: "DELETE",
+            headers: {
+                authorization: `bearer ${localStorage.getItem('access-token')}`
+            }
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.deletedCount > 0) {
+                    setClose(null);
+                    refetch();
+                    toast.success("User Deleted Successfully!")
+                }
+            })
+
+    }
+
     if (isLoading) {
-        return <div className='flex justify-center items-center h-screen'><img src={load} alt="loader" /></div>
+        return <Loading></Loading>
     }
 
     return (
@@ -60,11 +100,15 @@ const AllUsers = () => {
                                                 <td>{userList.name}</td>
                                                 <td>{userList.email}</td>
                                                 <td>
-                                                    <span className={`badge ${userList.type === "Seller" ? 'badge-secondary':'badge-primary'}`}>{userList.type}</span>
+                                                    <span className={`badge ${userList.type === "Seller" ? 'badge-secondary' : 'badge-primary'}`}>{userList.type}</span>
                                                 </td>
                                                 <td>
-                                                    <label className='btn btn-sm btn-outline btn-success mr-2'><FaPencilAlt /></label>
-                                                    <button className='btn btn-sm btn-outline btn-secondary'><FaTrashAlt /></button>
+                                                    <div className="tooltip" data-tip="Make Admin">
+                                                        <label onClick={() => handleMakeAdmin(userList._id)} className='btn btn-sm btn-outline btn-success mr-2'>{userList.type === "Admin" ? <FaCheck /> : <FaShieldAlt />}</label>
+                                                    </div>
+                                                    <div className="tooltip" data-tip="Delete User">
+                                                        <label onClick={() => { setDeleteUser(userList); setClose([]) }} htmlFor="confirmation-modal" className="btn btn-sm btn-outline btn-secondary"><FaTrashAlt /></label>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         )
@@ -75,6 +119,9 @@ const AllUsers = () => {
                     </div>
                 </div>
             </div>
+            {
+                close && <ConfirmationModal handleDelete={handleDelete} data={deleteUser}></ConfirmationModal>
+            }
         </>
     );
 };
