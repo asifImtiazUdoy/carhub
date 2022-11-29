@@ -39,10 +39,11 @@ const Register = () => {
                         body: JSON.stringify(user)
                     })
                         .then(res => res.json())
-                        .then(data => {
-                            const user = data.user;
-                            setCreatedUser(user.email);
-                            toast.success('User Created Successfully');
+                        .then(result => {
+                            if (result.acknowledged) {
+                                setCreatedUser(data.email);
+                                toast.success('User Created Successfully');
+                            }
                         })
                 }
             })
