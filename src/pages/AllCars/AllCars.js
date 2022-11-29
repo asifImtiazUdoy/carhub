@@ -6,7 +6,7 @@ import CarItem from '../CarItems/CarItem';
 import Loading from '../Common/Loading';
 
 const AllCars = () => {
-    const { data: cars = [], isLoading } = useQuery({
+    const { data: cars = [], isLoading, refetch } = useQuery({
         queryKey: ['cars'],
         queryFn: async () => {
             const res = await fetch(`${baseUrl}/products`)
@@ -31,7 +31,7 @@ const AllCars = () => {
             </div>
             <div className='grid gap-4 lg:grid-cols-4 md:grid-cols-3 lg:px-24 py-28'>
                 {
-                    cars.map(car => <CarItem key={car._id} car={car}></CarItem>)
+                    cars.map(car => <CarItem key={car._id} car={car} refetch={refetch}></CarItem>)
                 }
             </div>
         </div>

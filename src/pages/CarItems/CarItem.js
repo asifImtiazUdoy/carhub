@@ -5,7 +5,7 @@ import BookingModal from '../Common/BookingModal';
 
 const CarItem = (props) => {
     const [close, setClose] = useState(null);
-    const { _id, name, image, original_price, price, location, use, booked } = props.car;
+    const { _id, name, image, original_price, price, location, use, booked, refetch } = props.car;
     
     return (
         <div className="card bg-base-200 shadow-xl mb-16">
@@ -24,7 +24,7 @@ const CarItem = (props) => {
                 <label onClick={() => setClose([])} htmlFor='booking-modal' className={`btn btn-sm ${booked === 1 ? '' : 'btn-secondary'} w-full`}>{booked === 1 ? 'Already Booked' : 'Book Now'}</label>
             </div>
             {
-                close && <BookingModal setClose={setClose} car={props.car}></BookingModal>
+                close && <BookingModal setClose={setClose} car={props.car} refetch={refetch}></BookingModal>
             }
         </div>
     );

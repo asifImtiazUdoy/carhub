@@ -54,13 +54,13 @@ const Orders = () => {
                                         return (
                                             <tr key={booking._id} className="text-center">
                                                 <th>{index + 1}</th>
-                                                <td>{booking.seller_name}</td>
+                                                <td>{booking.seller}</td>
                                                 <td>{booking.seller_email}</td>
                                                 <td>{booking.product_name}</td>
                                                 <td>{booking.meetup}</td>
                                                 <td>
                                                     <div className="tooltip" data-tip="See Car Details">
-                                                        <Link to={`/car/${booking.product_id}`}><FaCarAlt /></Link>
+                                                        <Link to={`/car/${booking.product_id}`} className="btn btn-primary btn-outline"><FaCarAlt /></Link>
                                                     </div>
                                                 </td>
                                             </tr>

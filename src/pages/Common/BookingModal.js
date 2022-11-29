@@ -6,7 +6,7 @@ import { baseUrl } from '../../Helper/Helper';
 import useUser from '../../Hooks/useUser'
 import Loading from './Loading';
 
-const BookingModal = ({ setClose, car }) => {
+const BookingModal = ({ setClose, car, refetch }) => {
     const { user } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [currentUser, userLoading] = useUser(user?.email);
@@ -27,7 +27,6 @@ const BookingModal = ({ setClose, car }) => {
             buyer_phone: data.phone,
             meetup: data.meet
         }
-        console.log(booking);
         fetch(`${baseUrl}/booking`, {
             method: "POST",
             headers: {
@@ -38,6 +37,7 @@ const BookingModal = ({ setClose, car }) => {
             .then(res => res.json())
             .then(data => {
                 if (data.acknowledged) {
+                    refetch();
                     setClose(null);
                     toast.success('Booking Successful!');
                 }
