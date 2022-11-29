@@ -81,6 +81,7 @@ const Products = () => {
                                     <th>Name</th>
                                     <th>Price</th>
                                     <th>Years of Use</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -96,6 +97,9 @@ const Products = () => {
                                                 <td>{product.name}</td>
                                                 <td>{product.price}</td>
                                                 <td>{product.use}</td>
+                                                <td>
+                                                    <span className={`badge ${product.booked !== 1 ? 'badge-secondary':'badge-primary'}`}>{product.booked !== 1 ? "Yet to Booked":"Booked"}</span>
+                                                </td>
                                                 <td>
                                                     {
                                                         product.advertise !== 1 ?

@@ -7,7 +7,7 @@ const Details = () => {
 
     return (
         <div>
-            <div className="hero min-h-screen">
+            <div className="hero min-h-screen mt-16">
                 <div className="hero-content flex-col lg:grid lg:grid-cols-5 lg:gap-4">
                     <div className="lg:col-span-2">
                     <img src={image} className="rounded-lg shadow-2xl" alt='Car Img' />
@@ -22,7 +22,7 @@ const Details = () => {
                         <p className='text-xl my-4'><span className='font-bold'>Location:</span> {location}</p>
                     </div>
                     <div className="text-center w-full lg:col-span-5">
-                    <Link to='/products' className='btn btn-outline btn-secondary my-8'>See Other Cars</Link>
+                    <Link to='/products' className='btn btn-outline btn-secondary my-8'>See Others Cars</Link>
                     </div>
                 </div>
             </div>

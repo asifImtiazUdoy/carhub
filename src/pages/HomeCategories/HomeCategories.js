@@ -29,7 +29,7 @@ const HomeCategories = () => {
                     <span className='w-16 h-1 bg-secondary rounded'></span>
                 </div>
             </div>
-            <div className="grid md:grid-cols-4 md:gap-4 lg:mx-24 py-12">
+            <div className="grid lg:grid-cols-4 md:grid-cols-2 md:gap-4 lg:mx-24 py-12 md:mx-4">
                 {
                     categories.map(category => <HomeCategory key={category._id} category={category}></HomeCategory>)
                 }

@@ -6,6 +6,7 @@ This is the client side project for carhub used car website
     -> All the image is taken from the google
     -> In this project, I also use react query and react form hook
     -> JWT authorization also done in this project
+    -> Live Link: https://carhub-6764b.web.app/
     -> There are 3 types of user in this website - 1. Buyer, 2. Seller, 3. Admin
     -> Admin email & password has given below:
                     email     : admin@gmail.com

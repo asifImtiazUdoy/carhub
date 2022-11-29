@@ -103,7 +103,7 @@ const AllUsers = () => {
                                                     <span className={`badge ${userList.type === "Seller" ? 'badge-secondary' : 'badge-primary'}`}>{userList.type}</span>
                                                 </td>
                                                 <td>
-                                                    <div className="tooltip" data-tip="Make Admin">
+                                                    <div className="tooltip" data-tip={userList.type === "Admin" ? "Already Admin" : "Make Admin"}>
                                                         <label onClick={() => handleMakeAdmin(userList._id)} className='btn btn-sm btn-outline btn-success mr-2'>{userList.type === "Admin" ? <FaCheck /> : <FaShieldAlt />}</label>
                                                     </div>
                                                     <div className="tooltip" data-tip="Delete User">

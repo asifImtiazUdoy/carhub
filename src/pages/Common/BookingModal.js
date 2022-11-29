@@ -43,7 +43,7 @@ const BookingModal = ({ setClose, car, refetch }) => {
                 }
             })
     }
-    
+
     return (
         car.booked !== 1 &&
         <div>
@@ -51,50 +51,53 @@ const BookingModal = ({ setClose, car, refetch }) => {
             <div className="modal">
                 <div className="modal-box relative">
                     <label htmlFor="booking-modal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                    <h3 className="text-xl text-center font-bold">Book this Car</h3>
-                    <form onSubmit={handleSubmit(handleCreate)}>
-                        <div className="card-body">
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Name</span>
-                                </label>
-                                <input type="text" className="input input-bordered" value={currentUser.name} disabled />
+                    <h3 className="text-xl text-center font-bold">{user ? 'Book this Car':'Login First'}</h3>
+                    {
+                        user &&
+                        <form onSubmit={handleSubmit(handleCreate)}>
+                            <div className="card-body">
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="label-text">Name</span>
+                                    </label>
+                                    <input type="text" className="input input-bordered" value={currentUser.name} disabled />
+                                </div>
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="label-text">Email</span>
+                                    </label>
+                                    <input type="text" className="input input-bordered" value={currentUser.email} disabled />
+                                </div>
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="label-text">Car Model</span>
+                                    </label>
+                                    <input type="text" className="input input-bordered" value={car.name} disabled />
+                                </div>
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="label-text">Price</span>
+                                    </label>
+                                    <input type="text" className="input input-bordered" value={`$${car.price}`} disabled />
+                                </div>
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="label-text">Phone</span>
+                                    </label>
+                                    <input type="text" {...register('phone', { required: true })} placeholder="Phone" className="input input-bordered" />
+                                    {errors.phone && <span className='text-red-600'>This field is required</span>}
+                                </div>
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="label-text">Meetup Location</span>
+                                    </label>
+                                    <input type="text" {...register('meet', { required: true })} placeholder="Meetup Location" className="input input-bordered" />
+                                    {errors.meet && <span className='text-red-600'>This field is required</span>}
+                                </div>
+                                <input className='btn btn-secondary w-full mt-6' type="submit" value="Submit" />
                             </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Email</span>
-                                </label>
-                                <input type="text" className="input input-bordered" value={currentUser.email} disabled />
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Car Model</span>
-                                </label>
-                                <input type="text" className="input input-bordered" value={car.name} disabled />
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Price</span>
-                                </label>
-                                <input type="text" className="input input-bordered" value={`$${car.price}`} disabled />
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Phone</span>
-                                </label>
-                                <input type="text" {...register('phone', { required: true })} placeholder="Phone" className="input input-bordered" />
-                                {errors.phone && <span className='text-red-600'>This field is required</span>}
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Meetup Location</span>
-                                </label>
-                                <input type="text" {...register('meet', { required: true })} placeholder="Meetup Location" className="input input-bordered" />
-                                {errors.meet && <span className='text-red-600'>This field is required</span>}
-                            </div>
-                            <input className='btn btn-secondary w-full mt-6' type="submit" value="Submit" />
-                        </div>
-                    </form>
+                        </form>
+                    }
                 </div>
             </div>
         </div>
