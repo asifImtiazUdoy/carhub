@@ -25,9 +25,9 @@ const Register = () => {
         const user = {
             name: data.name,
             email: data.email,
-            type: data.type ? data.type: 'Buyer'
+            type: data.type ? data.type : 'Buyer'
         }
-        
+
         createUser(data.email, data.password)
             .then(result => {
                 if (result.user?.uid) {
@@ -38,11 +38,12 @@ const Register = () => {
                         },
                         body: JSON.stringify(user)
                     })
-                    .then(res => res.json())
-                    .then(data => {
-                        setCreatedUser(data.email);
-                        toast.success('User Created Successfully');
-                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            const user = data.user;
+                            setCreatedUser(user.email);
+                            toast.success('User Created Successfully');
+                        })
                 }
             })
             .catch(e => console.error(e))
@@ -63,11 +64,11 @@ const Register = () => {
                     },
                     body: JSON.stringify(user)
                 })
-                .then(res => res.json())
-                .then(data => {
-                    setCreatedUser(data.email);
-                    toast.success('User Login Successfully');
-                })
+                    .then(res => res.json())
+                    .then(data => {
+                        setCreatedUser(data.email);
+                        toast.success('User Login Successfully');
+                    })
             })
             .catch(e => console.error(e))
     }
@@ -103,7 +104,7 @@ const Register = () => {
                                 </label>
                                 <div className="form-control">
                                     <label className="cursor-pointer label justify-start items-center shadow-sm">
-                                        <input type="checkbox" {...register('type')} className="checkbox checkbox-primary mr-2" value="Seller"/>
+                                        <input type="checkbox" {...register('type')} className="checkbox checkbox-primary mr-2" value="Seller" />
                                         <span className="label-text font-bold text-primary">SignUp as a Seller</span>
                                     </label>
                                 </div>
